@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Todo App{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow p-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 sm:space-x-4">
+        <a href="/" class="text-xl font-bold text-blue-600">ToDo</a>
+        <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+            {% if user.is_authenticated %}
+                <span class="flex items-center space-x-2 text-sm sm:text-base">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M5.121 17.804A4 4 0 018 16h8a4 4 0 012.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>{{ user.username }}</span>
+                </span>
+                <a href="{% url 'logout' %}" class="text-sm text-red-600 hover:underline">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-sm text-blue-600 hover:underline">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="flex-grow p-4 sm:p-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white shadow text-center p-4 text-sm text-gray-500">
+        &copy; {{ year|default:2025 }} To Do App. All rights reserved.
+    </footer>
+</body>
+</html>
