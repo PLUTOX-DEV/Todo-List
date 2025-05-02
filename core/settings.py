@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,11 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'task',
     'accounts',
-    
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -72,6 +74,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -122,8 +126,48 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+############################## JAZZMIN#################
+JAZZMIN_SETTINGS = {
+    # Title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "Todo",
+
+    # Title on the login screen (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "Todo list Admin",
+
+    # Title on the brand (defaults to current_admin_site.site_header if absent or None)
+    "site_brand": "TodoApp",
+
+    # Logo to use for your site, must be present in static files, used for the brand in the top left
+    "site_logo": "images/todo_logo.webp",
+
+    # Logo to use on the login screen (defaults to site_logo)
+    "login_logo": "images/todo_logo.png",
+
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome to Plutox Admin Panel",
+
+    # Copyright text in the footer
+    "copyright": "PlutoxApp © 2024",
+
+    # Search bar options: specify the models to include in search results
+    "search_model": ["task.Task", ],
+
+    "icons": {
+        # Make sure Font Awesome icon classes are correct
+        "task.Task": "fas fa-check-circle",
+    },
+    # Sidebar settings
+    "show_sidebar": True,  # Display the sidebar
+    "navigation_expanded": True,  # Automatically expand the menu
+    "hide_apps": ["sessions"],  # Apps to hide from the menu
+    "hide_models": [],  # Models to hide from the menu
+
+
+}
